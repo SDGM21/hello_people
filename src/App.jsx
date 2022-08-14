@@ -1,6 +1,6 @@
 import { useState } from "react";
 import WriteForm from "./components/WriteForm";
-import logo from "./logo512.png";
+import MainView from "./components/MainView";
 
 const App = () => {
   const [formOpen, setFormOpen] = useState(false);
@@ -8,13 +8,7 @@ const App = () => {
   return (
     <div className="container box-border flex flex-col items-center content-center">
       <div className="w-1/2 border bg-blue-500 rounded-xl">
-        <div className="border p-2 mx-auto">
-          <img className="block" src={logo} alt="" />
-        </div>
-        <div className="border p-2">
-          <h3>Hola</h3>
-          <p>My name is</p>
-        </div>
+        <MainView/>
         <div>
           <button
             className={formOpen ? "bg-red-500" : "bg-green-500"}
