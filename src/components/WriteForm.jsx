@@ -15,13 +15,10 @@ const WriteForm = () => {
     try {
       const imageRef = ref(storage, `NickImages/${values.nickName}`);
       await uploadBytes(imageRef, values.imageToUpload);
-      const res = await getDownloadURL(imageRef);
-      setImageUrl(res);
-
       await addDoc(collection(db, "writers"), {
         NickName: values.nickName,
         Message: values.message,
-        NickImage: imageUrl,
+        NickImage: await getDownloadURL(imageRef),
       });
     } catch (e) {
       alert("Error adding document: ", e);
