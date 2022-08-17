@@ -1,51 +1,49 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { db } from "../firebase/firebaseApp";
 import { getDocs, collection } from "firebase/firestore";
-import { isLessOrMuch } from "../helpers/isLessOrMuch";
 
 const MainView = () => {
   const [counter, setCounter] = useState(0);
-  const [postData, setPostData] = useState({
-    nickName: "",
-    nickImage: "",
-    message: "",
-  });
+  const [requestData, setRequestData] = useState([]);
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       const docRef = collection(db, "writers");
-      const querySnapshot = await getDocs(docRef);
-      setPostData({
-        nickName: querySnapshot.docs[counter].data().NickName,
-        nickImage: querySnapshot.docs[counter].data().NickImage,
-        message: querySnapshot.docs[counter].data().Message,
-      });
+      return (await getDocs(docRef)).docs;
     } catch (error) {
-      alert(error);
+      return error;
+    }
+  }, []);
+
+  const handleClick = (e) => {
+    if (requestData !== undefined) {
+      if (e.target.value === "left" && counter !== 0) {
+        setCounter(counter - 1);
+      } else if (
+        e.target.value === "right" &&
+        counter !== requestData.length - 1
+      ) {
+        setCounter(counter + 1);
+      }
     }
   };
 
-  const handleClick = (e) => {
-    switch (e.target.value) {
-      case "left":
-        setCounter(counter - 1);
-        break;
-      case "right":
-        setCounter(counter + 1);
-        break;
-      default:
-        break;
-    }
-  };
+  // getData().then((element) => {
+  //   setRequestData(element);
+  // });
 
   return (
     <div>
       <div className="border p-2 mx-auto">
-        <img className="block" src={postData.nickImage} alt="" />
+        <img
+          className="block"
+          // src={requestData ? requestData[counter].data().NickImage : ""}
+          alt=""
+        />
       </div>
       <div className="border p-2">
-        <h3>{postData.nickName}</h3>
-        <p>{postData.message}</p>
+        {/* <h3>{requestData ? requestData[counter].data().NickName : ""}</h3> */}
+        {/* <p>{requestData ? requestData[counter].data().Message : ""}</p> */}
       </div>
       <div className="container flex justify-around items-center">
         <button
