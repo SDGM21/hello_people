@@ -1,7 +1,8 @@
+// import { collection, addDoc } from "firebase/firestore";
+// import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+// import { db, storage } from "../firebase/firebaseApp";
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { db, storage } from "../firebase/firebaseApp";
+import { addWriter } from "../back4app/service_Init";
 
 const WriteForm = () => {
   const [values, setValues] = useState({
@@ -9,19 +10,26 @@ const WriteForm = () => {
     message: null,
     imageToUpload: null,
   });
-  const [imageUrl, setImageUrl] = useState(null);
 
-  const handleClick = async () => {
-    try {
-      const imageRef = ref(storage, `NickImages/${values.nickName}`);
-      await uploadBytes(imageRef, values.imageToUpload);
-      await addDoc(collection(db, "writers"), {
-        NickName: values.nickName,
-        Message: values.message,
-        NickImage: await getDownloadURL(imageRef),
+  const handleClick = () => {
+    if (values.nickName && values.message && values.imageToUpload) {
+      // try {
+      //   const imageRef = ref(storage, `NickImages/${values.nickName}`);
+      //   await uploadBytes(imageRef, values.imageToUpload);
+      //   await addDoc(collection(db, "writers"), {
+      //     NickName: values.nickName,
+      //     Message: values.message,
+      //     NickImage: await getDownloadURL(imageRef),
+      //   });
+      // } catch (e) {
+      //   alert("Error adding document: ", e);
+      // }
+      addWriter({
+        dataBaseRef: "Writers",
+        nickName: values.nickName,
+        message: values.message,
+        nickImage: values.imageToUpload,
       });
-    } catch (e) {
-      alert("Error adding document: ", e);
     }
   };
 
@@ -31,6 +39,7 @@ const WriteForm = () => {
       [e.target.name]: e.target.value,
     });
   };
+
   return (
     <div>
       <label>

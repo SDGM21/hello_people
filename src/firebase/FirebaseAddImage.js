@@ -1,4 +1,4 @@
-import { storage } from "../firebase/firebaseApp";
+import { storage } from "./firebaseApp";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useState } from "react";
 

@@ -1,6 +1,6 @@
 import { collection, addDoc } from "firebase/firestore";
 import { useState } from "react";
-import { db } from "../firebase/firebaseApp";
+import { db } from "./firebaseApp";
 import FirebaseAddImage from "./FirebaseAddImage";
 
 const FirebaseAdd = ({ nickName, message, imageToUpload }) => {
