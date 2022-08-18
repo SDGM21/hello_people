@@ -11,7 +11,7 @@ const MainView = () => {
   const [message, setMessage] = useState(null);
 
   const handleClick = (e) => {
-    if (requestData !== []) {
+    if (requestData !== null) {
       if (e.target.value === "left" && counter !== 0) {
         setCounter(counter - 1);
       } else if (
